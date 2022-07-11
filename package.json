@@ -1,0 +1,25 @@
+{
+  "name": "react-nodebird-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/walkerJung/next-nodebird-backend.git"
+  },
+  "author": "walkerJung",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/walkerJung/next-nodebird-backend/issues"
+  },
+  "homepage": "https://github.com/walkerJung/next-nodebird-backend#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.21.2",
+    "sequelize-cli": "^6.4.1"
+  }
+}
