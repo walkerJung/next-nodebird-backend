@@ -80,6 +80,66 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
+router.get("/:id/posts", async (req, res, next) => {
+  try {
+    const user = await User.findOne({ where: { id: req.params.id } });
+    if (user) {
+      const where = {};
+      if (parseInt(req.query.lastId, 10)) {
+        where.id = { [Op.lt]: parseInt(req.query.lastId, 10) };
+      }
+      const posts = await user.getPosts({
+        where,
+        limit: 10,
+        include: [
+          {
+            model: Image,
+          },
+          {
+            model: Comment,
+            include: [
+              {
+                model: User,
+                attributes: ["id", "nickname"],
+              },
+            ],
+          },
+          {
+            model: User,
+            attributes: ["id", "nickname"],
+          },
+          {
+            model: User,
+            through: "Like",
+            as: "Likers",
+            attributes: ["id"],
+          },
+          {
+            model: Post,
+            as: "Retweet",
+            include: [
+              {
+                model: User,
+                attributes: ["id", "nickname"],
+              },
+              {
+                model: Image,
+              },
+            ],
+          },
+        ],
+      });
+      console.log(posts);
+      res.status(200).json(posts);
+    } else {
+      res.status(404).send("존재하지 않는 사용자입니다.");
+    }
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 router.post("/login", isNotLoggedIn, (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) {
